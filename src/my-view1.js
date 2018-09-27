@@ -8,28 +8,59 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-import './shared-styles.js';
+import { PolymerElement, html } from "@polymer/polymer/polymer-element.js";
+import "@polymer/iron-image/iron-image.js";
+import "@polymer/iron-ajax/iron-ajax.js";
+import "@polymer/iron-flex-layout/iron-flex-layout-classes.js";
+import "./shared-styles.js";
 
 class MyView1 extends PolymerElement {
+  _handleResponse(_, request) {
+    var response = request.response;
+    response.toc = response.toc.map(function(item, i) {
+      item.name = "Section " + (i + 1);
+      return item;
+    });
+    this.details = response;
+    // this.echo = JSON.stringify(response, null, 2);
+  }
+
   static get template() {
     return html`
       <style include="shared-styles">
         :host {
           display: block;
-
           padding: 10px;
         }
       </style>
-
-      <div class="card">
-        <div class="circle">1</div>
-        <h1>View One</h1>
-        <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+      <iron-ajax auto
+        url="https://d1re4mvb3lawey.cloudfront.net/pg1017/index.json"
+        handle-as="json"
+        on-response="_handleResponse"
+      ></iron-ajax>
+      <div id="content">
+        <div class="container flex-horizontal">
+          <div style="margin-right: 20px;">
+            <iron-image sizing="cover" preload src="https://d1re4mvb3lawey.cloudfront.net/pg1017/cover.jpg"></iron-image>
+            <p id="isbn"><strong>ISBN</strong> | {{details.isbn}}</p>
+            <p id="authors"><strong>Authors</strong> | <template is="dom-repeat" items="[[details.contributors]]">{{item}} </template></p>
+            <p id="publishedDate"><strong>Published</strong> | {{details.date}}</p>
+          </div>
+          <div class="flexchild">
+            <h1 id="title">{{details.title}}</h1>
+            <hr/>
+            <strong id="toc" style="margin-bottom: 2px;">Table of Contents</strong>
+            <table id="detailsTable" class="table">
+              <tbody>
+                <template is="dom-repeat" items="[[details.toc]]"><tr><td><a href="#{{item.file}}">{{item.name}}</a></td><td style="text-align:right;">{{item.first}}</td></tr></template>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!--<pre>{{echo}}</pre>-->
       </div>
     `;
   }
 }
 
-window.customElements.define('my-view1', MyView1);
+window.customElements.define("my-view1", MyView1);

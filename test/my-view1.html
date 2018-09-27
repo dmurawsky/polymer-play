@@ -10,34 +10,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>my-view1</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+  <title>my-view1</title>
 
-    <!-- Import the element to test -->
-    <script type="module" src="../src/my-view1.js"></script>
-  </head>
-  <body>
-    <test-fixture id="BasicView">
-      <template>
-        <my-view1></my-view1>
-      </template>
-    </test-fixture>
+  <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+  <script src="../node_modules/wct-browser-legacy/browser.js"></script>
 
-    <script type="module">
-      suite('my-view1 tests', function() {
-        test('Number in circle should be 1', function() {
-          var myView = fixture('BasicView');
-          var circle = myView.shadowRoot.querySelector('.circle');
+  <!-- Import the element to test -->
+  <script type="module" src="../src/my-view1.js"></script>
+</head>
 
-          assert.equal(circle.textContent, '1');
-        });
+<body>
+  <test-fixture id="BasicView">
+    <template>
+      <my-view1></my-view1>
+    </template>
+  </test-fixture>
+
+  <script type="module">
+    suite('<my-view1>', function () {
+      var myView = fixture('BasicView');
+      test('Title should exist', function () {
+        var title = myView.shadowRoot.querySelector('#title');
+        assert.isNotNull(title);
       });
-    </script>
-  </body>
+      test('Details table should exist', function () {
+        var detailsTable = myView.shadowRoot.querySelector('#detailsTable');
+        assert.isNotNull(detailsTable);
+      });
+      test('Table of Contents title should exist', function () {
+        var toc = myView.shadowRoot.querySelector('#toc');
+        assert.isNotNull(toc);
+      });
+      test('Book metadata titles exist', function () {
+        var isbn = myView.shadowRoot.querySelector('#isbn strong');
+        var authors = myView.shadowRoot.querySelector('#authors strong');
+        var publishedDate = myView.shadowRoot.querySelector('#publishedDate strong');
+        assert.equal(isbn.textContent, 'ISBN');
+        assert.equal(authors.textContent, 'Authors');
+        assert.equal(publishedDate.textContent, 'Published');
+      });
+    });
+  </script>
+</body>
+
 </html>

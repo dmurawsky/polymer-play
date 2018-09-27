@@ -8,37 +8,51 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import '@polymer/polymer/polymer-element.js';
+import "@polymer/polymer/polymer-element.js";
 
-const $_documentContainer = document.createElement('template');
+const $_documentContainer = document.createElement("template");
 $_documentContainer.innerHTML = `<dom-module id="shared-styles">
   <template>
     <style>
-      .card {
-        margin: 24px;
-        padding: 16px;
-        color: #757575;
-        border-radius: 5px;
-        background-color: #fff;
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+      #content {
+        width: 900px;
+        margin: 70px auto;
       }
-
-      .circle {
+      .table {
+        width: 230px;
+        border-spacing: 0px;
+      }
+      .table tr td {
+        text-align: left;
+        border-top: solid 1px #ccc;
+        margin: 0px;
+      }
+      .thumbnail {
         display: inline-block;
         width: 64px;
-        height: 64px;
+        height: 86px;
         text-align: center;
         color: #555;
-        border-radius: 50%;
         background: #ddd;
         font-size: 30px;
         line-height: 64px;
       }
-
       h1 {
         margin: 16px 0;
         color: #212121;
         font-size: 22px;
+      }
+      iron-image {
+        height: 309px;
+        width: 230px;
+        background-color: lightgray;
+        border-radius: 5px;
+      }
+      .flex-horizontal {
+        @apply --layout-horizontal;
+      }
+      .flexchild {
+        @apply --layout-flex;
       }
     </style>
   </template>
